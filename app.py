@@ -1,6 +1,8 @@
 from flask import Flask, send_file, jsonify, request
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 
+app.config['JWT_SECRET_KEY'] = 'doNotTellMyMaster!'
+jwt = JWTManager(app)
 
 app = Flask(__name__, static_folder='public', static_url_path='/public')
 
