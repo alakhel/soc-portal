@@ -34,7 +34,11 @@
           body: JSON.stringify(data)
         })
         .then(response => response.json())
-        .then(data =>   window.location.href = "/dashboard"
+        .then(data =>   {
+            console.log(data)
+            window.location.href = "/dashboard"
+
+        }
 )
         .catch(error => console.error(error));
       });

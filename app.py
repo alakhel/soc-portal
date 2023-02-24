@@ -1,5 +1,5 @@
-from flask import Flask, send_file, jsonify, request
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from flask import Flask, send_file, jsonify, request, Response
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, decode_token
 
 
 app = Flask(__name__, static_folder='public', static_url_path='/public')
@@ -18,6 +18,16 @@ def serve_index():
 def loginPage():
     return send_file('loginPage.html')
 
+#profile Page
+@app.route('/profile', methods=['GET'])
+def profile():
+    return send_file('profile.html')
+
+#machine Page
+@app.route('/machine', methods=['GET'])
+def machine():
+    return send_file('machine.html')
+
 
 #Login endpoint
 @app.route('/login', methods=['POST'])
@@ -30,7 +40,9 @@ def login():
     # Verify the user's credentials here (e.g. by querying a database)
 
     access_token = create_access_token(identity=username)
-    return jsonify({'access_token': access_token}), 200
+    response = jsonify({'login': True})
+    response.set_cookie('access_token', access_token, httponly=True)
+    return response, 200
 
 #Protected Dashboard
 @app.route('/dashboard', methods=['GET'])
