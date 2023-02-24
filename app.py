@@ -40,9 +40,8 @@ def login():
     # Verify the user's credentials here (e.g. by querying a database)
 
     access_token = create_access_token(identity=username)
-    response = jsonify({'login': True})
-    response.set_cookie('access_token', access_token, httponly=True)
-    return response, 200
+    #response.set_cookie('access_token', access_token, httponly=True)
+    return jsonify({'login': True, 'access_token': access_token}), 200
 
 #Protected Dashboard
 @app.route('/dashboard', methods=['GET'])

@@ -20,28 +20,25 @@
     </form>
     <script>
       const form = document.querySelector('form');
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const data = {
-          username: form.elements.username.value,
-          password: form.elements.password.value
-        };
-        fetch('/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data =>   {
-            console.log(data)
-            window.location.href = "/dashboard"
+form.addEventListener('submit', (event) => {
+	event.preventDefault();
+	const data = {
+		username: form.elements.username.value,
+		password: form.elements.password.value
+	};
+	fetch('/login', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+	}).then(response => response.json()).then(data => {
+		console.log(data)
+		localStorage.setItem('access_token', data.access_token);
 
-        }
-)
-        .catch(error => console.error(error));
-      });
+		window.location.href = "/dashboard"
+	}).catch(error => console.error(error));
+});
     </script>
         </div>
 
