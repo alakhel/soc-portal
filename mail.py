@@ -14,8 +14,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 class Emails():
 
     def __init__(self, smtp_server="smtp.gmail.com", smtp_port=587):
-        self.username = input("Email: ")
+        self.username = input("Nom d'utilisateur(pas l'email): ")
         self.password = getpass("Mot de passe: ")
+
 
         self.smtp_server = smtp_server
         self.smtp_port = smtp_port
@@ -76,7 +77,7 @@ class Emails():
             msg.set_content(body)
 
             msg['Subject'] = subject
-            msg['From'] = self.sent_from
+            msg['From'] = self.username
             msg['To'] = to            
 
             try:
@@ -96,5 +97,4 @@ if __name__ == "__main__":
 
     
     if emails.authenticate():  # and emails.parse_config_file(sys.argv[1]):
-        emails.send_mails(etudiants=[{"etudiant": "jordan.laires.78@gmail.com", "mdp": "test"}])
-        emails.close()
+        emails.send_mails(etudiants=[{"etudiant": "mohamed.mouloudi@etu.u-paris.fr", "mdp": "test"}])
