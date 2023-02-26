@@ -1,15 +1,18 @@
 # Université de Paris-Cité
 
-installation :
-pip install -r requirements.txt
-apt install sqlite3
-run:
-gunicorn app:app -b 0.0.0.0:8000
-gunicorn app:app -b 0.0.0.0:8000 -D
+#### installation :
+
+- pip install -r requirements.txt
+- apt install sqlite3
+
+#### run:
+
+- gunicorn app:app -b 0.0.0.0:8000
+- gunicorn app:app -b 0.0.0.0:8000 -D
 
 ### Brouillon: Call Api
 
-```
+```Javascript
 fetch('/dashboard', {
       headers: { 'Authorization': `Bearer ${token}` }
     })
@@ -22,29 +25,28 @@ fetch('/dashboard', {
 // for redirect
         return redirect(url_for('login'))
 
-
-
 ```
 
 ### User Endpoint API
 
-POST /users: Creates a new user.
-GET /users: Returns a list of all users.
-GET /users/<user_id>: Returns a specific user by ID.
-PUT /users/<user_id>: Updates a specific user by ID.
-DELETE /users/<user_id>: Deletes a specific user by ID.
+- POST /users: Creates a new user.
+- GET /users: Returns a list of all users.
+- GET /users/<user_id>: Returns a specific user by ID.
+- PUT /users/<user_id>: Updates a specific user by ID.
+- DELETE /users/<user_id>: Deletes a specific user by ID.
 
 ### Machine Endpoint API
 
-GET /machines: Retrieve a list of all machines in the database.
-GET /machines/:id: Retrieve a specific machine by ID.
-POST /machines: Create a new machine.
-PUT /machines/:id: Update an existing machine by ID.
-DELETE /machines/:id: Delete a machine by ID.
+- GET /machines: Retrieve a list of all machines in the database.
+- GET /machines/:id: Retrieve a specific machine by ID.
+- POST /machines: Create a new machine.
+- PUT /machines/:id: Update an existing machine by ID.
+- DELETE /machines/:id: Delete a machine by ID.
 
 ### Tasks:
 
-##RBAC :
+#### RBAC :
+
 https://flask-rbac.readthedocs.io/en/latest/
 brouillon_roles.py
 
@@ -54,7 +56,7 @@ brouillon_roles.py
 
 ---
 
-##Myprofile API:
+#### Myprofile API:
 
 - create api endpoint
 
@@ -72,7 +74,7 @@ brouillon_roles.py
     return jsonify(user)
 ```
 
-## Correction de l'UX
+#### Correction de l'UX
 
 - faire des tests sur le frontend et corrgier les beugs UX;
 - example: clique sur button ajouter, puis faut faire F5 pour avoir les données
