@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+		<div class="navbar-brand">
+		  <a class="navbar-item" href="#">
+			<img src="/public/logonav.svg" width="112" height="28">
+		  </a>
+	  
+		  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+		  </a>
+		</div>
+	  
+		<div id="navbarBasicExample" class="navbar-menu">
+		  <div class="navbar-start">
+			<a href="/dashboard" class="nav-link navbar-item">
+			  Dashboard
+			</a>
+	  
+			<a class="navbar-item nav-link" href="/machine">Machine</a>
+
+			<a class="navbar-item nav-link" href="/profile">Mon profile</a>
+			<a class="navbar-item nav-link" href="/userpage">Admin user</a>
+
+
+			
+			
+		  </div>
+	  
+		  <div class="navbar-end">
+			<div class="navbar-item">
+			  <div class="buttons">
+			
+				<a class="button is-light" href="/">
+				  Log out
+				</a>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </nav>
 	<title>Users Admin Panel</title>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.2/css/bulma.min.css">
 </head>
