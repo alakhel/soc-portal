@@ -43,6 +43,8 @@ fetch('/dashboard', {
 - PUT /machines/:id: Update an existing machine by ID.
 - DELETE /machines/:id: Delete a machine by ID.
 
+---
+
 ### Tasks:
 
 #### RBAC :
@@ -53,8 +55,6 @@ brouillon_roles.py
 - add rbac to backend
 - protect admin routes
 - hide admin forms in frontend (ex: user should not see adminStuff)
-
----
 
 #### Myprofile API:
 
