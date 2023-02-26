@@ -1,6 +1,7 @@
 from flask import Flask, send_file, jsonify, request, Response
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, decode_token
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
@@ -45,10 +46,13 @@ def login():
     if not username or not password:
         return jsonify({'error': 'Missing username or password'}), 400
 
-    # Verify the user's credentials here (e.g. by querying a database)
+    # Get user from the database
+    user = User.query.filter_by(login=username).first()
+    if not user or not check_password_hash(user.password_hash, password):
+        return jsonify({'error': 'Invalid username or password'}), 401
 
-    access_token = create_access_token(identity=username)
-    #response.set_cookie('access_token', access_token, httponly=True)
+    # Create access token for the user
+    access_token = create_access_token(identity=user.id)
     return jsonify({'login': True, 'access_token': access_token}), 200
 
 #Protected Dashboard
@@ -62,8 +66,14 @@ class User(db.Model):
     prenom = db.Column(db.String(50))
     nom = db.Column(db.String(50))
     login = db.Column(db.String(50), unique=True)
-    password = db.Column(db.String(50))
+    password_hash = db.Column(db.String(128))
     groupe = db.Column(db.String(50))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f'<User {self.id}>'
@@ -76,7 +86,8 @@ def create_tables():
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.json
-    user = User(prenom=data['prenom'], nom=data['nom'], login=data['login'], password=data['password'], groupe=data['groupe'])
+    user = User(prenom=data['prenom'], nom=data['nom'], login=data['login'], groupe=data['groupe'])
+    user.set_password(data['password'])
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': 'User created successfully.'}), 201
@@ -87,7 +98,7 @@ def get_all_users():
     users = User.query.all()
     result = []
     for user in users:
-        user_data = {'id': user.id, 'prenom': user.prenom, 'nom': user.nom, 'login': user.login, 'password': user.password, 'groupe': user.groupe}
+        user_data = {'id': user.id, 'prenom': user.prenom, 'nom': user.nom, 'login': user.login, 'groupe': user.groupe}
         result.append(user_data)
     return jsonify(result), 200
 
@@ -96,7 +107,7 @@ def get_all_users():
 def get_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user:
-        user_data = {'id': user.id, 'prenom': user.prenom, 'nom': user.nom, 'login': user.login, 'password': user.password, 'groupe': user.groupe}
+        user_data = {'id': user.id, 'prenom': user.prenom, 'nom': user.nom, 'login': user.login, 'groupe': user.groupe}
         return jsonify(user_data), 200
     else:
         return jsonify({'message': 'User not found.'}), 404
@@ -107,11 +118,16 @@ def update_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user:
         data = request.json
-        user.prenom = data['prenom']
-        user.nom = data['nom']
-        user.login = data['login']
-        user.password = data['password']
-        user.groupe = data['groupe']
+        if data['prenom'] != "" :
+            user.prenom = data['prenom']
+        if data['nom'] != "" :
+            user.nom = data['nom']
+        if data['login'] != "" :
+            user.login = data['login']
+        if data['password'] != "" :
+            user.set_password(data['password'])
+        if data['groupe'] != "" :
+            user.groupe = data['groupe']
         db.session.commit()
         return jsonify({'message': 'User updated successfully.'}), 200
     else:
