@@ -58,7 +58,9 @@ brouillon_roles.py
 
 #### Myprofile API:
 
-- create api endpoint
+- should contains user's details & reset password form.
+- create api endpoint using the code below and Chatgpt
+- create the correspendant HTML page to consume the API
 
 ```
   #define the func

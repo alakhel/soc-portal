@@ -22,8 +22,8 @@
 	  
 			<a class="navbar-item nav-link" href="/machine">Machine</a>
 
-			<a class="navbar-item nav-link" href="/profile">Mon profile</a>
-			<a class="navbar-item nav-link" href="/userpage">Admin user</a>
+			<a class="navbar-item nav-link" href="/profile">My Profile</a>
+			<a class="navbar-item nav-link" href="/userpage">Manage users</a>
 
 
 			
@@ -125,7 +125,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Login</th>
-                    <th>Password</th>
+                 
                     <th>Group</th>
                   </tr>
                 </thead>
@@ -153,7 +153,7 @@
                         <td>${user.prenom}</td>
                         <td>${user.nom}</td>
                         <td>${user.login}</td>
-                        <td>${user.password}</td>
+                
                         <td>${user.groupe}</td>
                         <td>
                           <button class="button is-danger" onclick="deleteUser(${user.id})">Delete User</button>
@@ -186,25 +186,27 @@
     </script>
 
     <section class="section">
+      <div class="container">
+        <h2 class="subtitle">Update User</h2>
       <form id="update-user-form">
         <label class="label">id</label>
-        <input class="input" type="text" name="id" value="1">
+        <input class="input" type="text" name="id" value="" placeholder="id for user to update" onkeyup="getUser(event)">
         <div class="field">
             <label class="label">Prenom</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Enter prenom" name="prenom">
+                <input class="input" id="prenominput" type="text" placeholder="Enter prenom" name="prenom">
             </div>
         </div>
         <div class="field">
             <label class="label">Nom</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Enter nom" name="nom">
+                <input class="input" id="nominput" type="text" placeholder="Enter nom" name="nom">
             </div>
         </div>
         <div class="field">
             <label class="label">Login</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Enter login" name="login">
+                <input class="input" id="logininput" type="text" placeholder="Enter login" name="login">
             </div>
         </div>
         <div class="field">
@@ -216,7 +218,7 @@
         <div class="field">
             <label class="label">Groupe</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Enter groupe" name="groupe">
+                <input class="input" id="groupeinput" type="text" placeholder="Enter groupe" name="groupe">
             </div>
         </div>
         <div class="field">
@@ -245,9 +247,31 @@
             .then(data => console.log(data))
             .catch(error => console.log(error));
         });
+
+       function getUser(){
+        const userId = event.target.value;
+        fetch(`/users/${userId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+   })
+      .then(response => response.json())
+    .then(data => {
+     console.log(data)
+     const ids= ["prenom", "nom", "login", "groupe"];
+     ids.map(v=>{
+      console.log(v, data)
+        document.getElementById(v+'input').value = data[v] ? data[v] : "" ;
+
+    })
+    })
+    .catch(error => console.error(error));
+        }
     </script>
     
-
+</div>
     </section>
+    
     </body>
 </html>
