@@ -42,7 +42,7 @@ POST /machines: Create a new machine.
 PUT /machines/:id: Update an existing machine by ID.
 DELETE /machines/:id: Delete a machine by ID.
 
-## #Task:
+### Tasks:
 
 ##RBAC :
 https://flask-rbac.readthedocs.io/en/latest/
