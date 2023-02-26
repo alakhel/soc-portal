@@ -6,7 +6,11 @@
     <title>Login</title>
   </head>
   <body>
-    <div class="container is-centered">
+    <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-centered is-vcentered">
+            <div class="column is-half">
     <h1>Login</h1>
     <form method="POST" action="/login">
         <div class="field">
@@ -36,6 +40,11 @@
             </p>
           </div>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
     <script>
       const form = document.querySelector('form');
 form.addEventListener('submit', (event) => {
@@ -58,7 +67,7 @@ form.addEventListener('submit', (event) => {
 	}).catch(error => console.error(error));
 });
     </script>
-        </div>
+       
 
   </body>
 </html>
