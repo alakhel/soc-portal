@@ -75,9 +75,7 @@ class User(db.Model):
     def __repr__(self):
         return f'<User {self.id}>'
 
-def create_tables():
-    with app.app_context():
-        db.create_all()
+
 #-----------------------------------#
 #Login endpoint
 @app.route('/login', methods=['POST'])
@@ -168,6 +166,8 @@ class Machine(db.Model):
     hostname = db.Column(db.String(255), nullable=False)
     ip = db.Column(db.String(15), nullable=False)
     group = db.Column(db.String(50), nullable=False)
+    def __repr__(self):
+        return f'<Machine {self.id}>'    
 #-----------------------------------#
 @app.route('/machines', methods=['GET'])
 def get_machines():
@@ -213,8 +213,13 @@ def delete_machine(machine_id):
     else:
         return jsonify({'error': 'Machine not found'})
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return send_file('notfound.html'), 404
 
-
+def create_tables():
+    with app.app_context():
+        db.create_all()
 if __name__ == '__main__':
     create_tables()
     app.run(debug=True)

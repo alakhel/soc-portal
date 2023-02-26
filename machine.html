@@ -1,1 +1,161 @@
-machine
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Machine List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+		<div class="navbar-brand">
+		  <a class="navbar-item" href="#">
+			<img src="/public/logonav.svg" width="112" height="28">
+		  </a>
+	  
+		  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+		  </a>
+		</div>
+	  
+		<div id="navbarBasicExample" class="navbar-menu">
+		  <div class="navbar-start">
+			<a href="/dashboard" class="nav-link navbar-item">
+			  Dashboard
+			</a>
+	  
+			<a class="navbar-item nav-link" href="/machine">Machine</a>
+
+			<a class="navbar-item nav-link" href="/profile">Mon profile</a>
+
+			
+			
+		  </div>
+	  
+		  <div class="navbar-end">
+			<div class="navbar-item">
+			  <div class="buttons">
+			
+				<a class="button is-light" href="/">
+				  Log out
+				</a>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </nav>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Machine List</h1>
+        <table class="table is-striped is-hoverable">
+          <thead>
+            <tr>
+              <th>Hostname</th>
+              <th>IP</th>
+              <th>Group</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- This is where the data will be inserted -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <script>
+      // This function gets the machine data from the API and inserts it into the HTML table
+      function getMachines() {
+        fetch('/machines')
+          .then(response => response.json())
+          .then(data => {
+            const table = document.querySelector('table tbody');
+            table.innerHTML = '';
+            data.forEach(machine => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${machine.hostname}</td>
+                <td>${machine.ip}</td>
+                <td>${machine.group}</td>
+                <button class="button is-danger" onclick="deleteMachine(${machine.id})">Delete User</button>
+
+              `;
+              table.appendChild(row);
+            });
+          })
+          .catch(error => console.error(error));
+      }
+      function deleteMachine(id) {
+        fetch('/machines/' + id, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.log(error));
+    }
+      // Call the getMachines function on page load
+      window.addEventListener('load', getMachines);
+    </script>
+      <section class="section">
+        <div class="container">
+    <form id="add-machine-form" class="box" method="post">
+        <h1 class="title is-4">Add Machine</h1>
+        <div class="field">
+          <label class="label">Hostname</label>
+          <div class="control">
+            <input class="input" type="text" name="hostname" placeholder="Enter the hostname" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">IP Address</label>
+          <div class="control">
+            <input class="input" type="text" name="ip" placeholder="Enter the IP address" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Group</label>
+          <div class="control">
+            <input class="input" type="text" name="group" placeholder="Enter the group" required>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary">Add Machine</button>
+          </div>
+        </div>
+      </form>
+    </div>
+</section>
+      <script>
+        const form = document.getElementById('add-machine-form');
+      
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+      
+          const formData = new FormData(form);
+          const data = {};
+          formData.forEach((value, key) => {
+            data[key] = value;
+          });
+      
+          fetch('/machines', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(response => {
+            if (response.ok) {
+              alert('Machine added successfully!');
+              form.reset();
+            } else {
+              alert('Error adding machine!');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
+      </script>
+      
+  </body>
+</html>
