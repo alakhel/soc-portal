@@ -14,7 +14,7 @@ passwords = ['BSx7c8kvQxqZb80c', 's4zEMFUbjnkybORw', 'kgl5Jsg4g8Ezh4RY', 'X5dfxq
 
 groupe = 1
 for i in range(0,39):
-    if (i+2 == 10) || (i+2 == 18) || (i+2 == 26) || (i+2 == 33):
+    if (i+2 == 10) or (i+2 == 18) or (i+2 == 26) or (i+2 == 33):
         groupe += 1
         
     hashed = crypt.crypt(passwords[i], salt=None)
