@@ -18,7 +18,7 @@ for i in range(0,39):
         groupe += 1
         
     hashed = crypt.crypt(passwords[i], salt=None)
-    cursor.execute("INSERT INTO user (id, prenom, nom, login, password_hash, groupe) VALUES ('"+str(i+1)+"','"+prenoms[i]+"','"+noms[i]+"','"+logins[i]+"','"+hashed+"','"+str(groupe)+"'');")
+    cursor.execute("INSERT INTO user (id, prenom, nom, login, password_hash, groupe) VALUES ('"+str(i+2)+"','"+prenoms[i]+"','"+noms[i]+"','"+logins[i]+"','"+hashed+"','"+str(groupe)+"'');")
     
 # Commit the changes to the database
 conn.commit()
