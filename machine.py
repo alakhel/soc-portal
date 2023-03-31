@@ -17,7 +17,7 @@ class Machine(Resource):
             return {'error': 'Machine not found'}, 404
 
     # Create a machine
-    @jwt_required
+    @jwt_required()
     def post(self):
         if not get_jwt()['admin']:
             return {'message': 'Must be admin to create a machine'}, 403
@@ -29,7 +29,7 @@ class Machine(Resource):
         return {'id': machine.id, 'hostname': machine.hostname, 'ip': machine.ip, 'group': machine.group}, 200
 
     # Update a machine
-    @jwt_required
+    @jwt_required()
     def update(self):
         if not get_jwt()['admin']:
             return {'message': 'Must be admin to create a machine'}, 403
@@ -47,7 +47,7 @@ class Machine(Resource):
             return {'error': 'Machine not found'}, 404
 
     # Delete a machine
-    @jwt_required
+    @jwt_required()
     def delete(self):
         if not get_jwt()['admin']:
             return {'message': 'Must be admin to create a machine'}, 403

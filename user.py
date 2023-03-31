@@ -7,7 +7,7 @@ from db import User, db
 class User(Resource):
 
     # Get a user(s)
-    @jwt_required
+    @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
         user = User.query.filter_by(id=user_id).first()
@@ -18,7 +18,7 @@ class User(Resource):
             return {'message': 'User not found.'}, 404
 
     # Create a user
-    @jwt_required
+    @jwt_required()
     def post(self):
         if get_jwt()['admin']:
             data = request.get_json()
@@ -31,7 +31,7 @@ class User(Resource):
             return {"message": "Must be admin to create a user"}, 403
 
     # Delete a user
-    @jwt_required
+    @jwt_required()
     def delete(self):
         claims = get_jwt()
         if not claims['admin']:
@@ -47,7 +47,7 @@ class User(Resource):
             return {'message': 'User not found.'}, 404
 
     # Update a user
-    @jwt_required
+    @jwt_required()
     def update(self):
         claims = get_jwt()
         if claims['admin']:

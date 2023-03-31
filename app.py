@@ -1,4 +1,5 @@
-from flask import Flask, send_file
+import logging
+from flask import Flask, send_file, request
 from flask_jwt_extended import JWTManager
 from db import db
 from flask_restful import Api
@@ -7,6 +8,8 @@ from user import User
 from users import Users
 from machine import Machine
 from machines import Machines
+from json import loads, dumps
+from base64 import b64encode
 
 
 app = Flask(__name__, static_folder='public', static_url_path='/public')
@@ -14,6 +17,7 @@ app = Flask(__name__, static_folder='public', static_url_path='/public')
 app.config['JWT_SECRET_KEY'] = 'doNotTellMyMaster!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 db.init_app(app)
 
@@ -25,6 +29,19 @@ api.add_resource(User, '/api/user')
 api.add_resource(Users, '/api/users')
 api.add_resource(Machine, '/api/machine')
 api.add_resource(Machines, '/api/machines')
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler('requests.log')
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+@app.after_request
+def log_request_info(response):
+    logger.info(f'{request.remote_addr} | {request.method} | {request.path} | {dict(request.args)} | {dict(request.headers)} | {b64encode(request.data)} | {response.status}')
+    return response
 
 
 ##############################
