@@ -2,11 +2,13 @@ from flask import Flask, send_file, jsonify, request, Response
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, decode_token
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_migrate import Migrate
+
+
 
 
 
 app = Flask(__name__, static_folder='public', static_url_path='/public')
-
 
 
 app.config['JWT_SECRET_KEY'] = 'doNotTellMyMaster!'
@@ -15,11 +17,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-
 ##############################
 # GENERAL HTML ENDPOINT
 ##############################
 #Home Page
+@app.route('/<path:filename>')
+def serve_dist(filename):
+    return send_from_directory('dist', filename)
 @app.route('/')
 def serve_index():
     return send_file('index.html')
@@ -77,9 +81,7 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.id}>'
-from flask_migrate import Migrate
 
-migrate = Migrate(app, db)
 
 
 #-----------------------------------#
@@ -226,6 +228,8 @@ def page_not_found(e):
 def create_tables():
     with app.app_context():
         db.create_all()
+migrate = Migrate(app, db)
+
 if __name__ == '__main__':
     create_tables()
     app.run(debug=True)
