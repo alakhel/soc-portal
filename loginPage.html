@@ -53,7 +53,7 @@ form.addEventListener('submit', (event) => {
 		username: form.elements.username.value,
 		password: form.elements.password.value
 	};
-	fetch('/login', {
+	fetch('/api/login', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
