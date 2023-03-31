@@ -1,4 +1,4 @@
-from flask import Flask, send_file, jsonify, request, Response
+from flask import Flask, send_file, jsonify, request, Response, send_from_directory
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, decode_token
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,12 +21,18 @@ jwt = JWTManager(app)
 # GENERAL HTML ENDPOINT
 ##############################
 #Home Page
-@app.route('/<path:filename>')
-def serve_dist(filename):
-    return send_from_directory('dist', filename)
 @app.route('/')
 def serve_index():
-    return send_file('index.html')
+    return send_file('public/index.html')
+
+@app.route('/<path:filename>')
+def serve_dist(filename):
+    return send_from_directory('public', filename)
+
+#@app.route('/')
+#def serve_index():
+#    return send_file('index.html')
+
 #Protected Dashboard
 @app.route('/dashboard', methods=['GET'])
 #@jwt_required
