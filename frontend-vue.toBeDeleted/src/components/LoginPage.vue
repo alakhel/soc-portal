@@ -4,6 +4,9 @@
         <div class="container">
           <div class="columns is-centered is-vcentered">
             <div class="column is-half">
+                <a class="navbar-item" href="/">
+                    <img src="@/assets/logo-nav.svg"/>
+                </a>
               <h1>Login</h1>
               <form @submit.prevent="submitForm">
                 <div class="field">
@@ -30,9 +33,13 @@
                     <button class="button is-success">
                       Login
                     </button>
+                  
                   </p>
                 </div>
               </form>
+              <a class="navbar-item" href="/">
+                Home
+            </a>
             </div>
           </div>
         </div>
