@@ -50,9 +50,17 @@ def log_request_info(response):
 # Home Page
 @app.route('/')
 def serve_index():
-    return send_file('index.html')
+    return send_file('public/index.html')
 
-# Protected Dashboard
+@app.route('/<path:filename>')
+def serve_dist(filename):
+    return send_from_directory('public', filename)
+
+#@app.route('/')
+#def serve_index():
+#    return send_file('index.html')
+
+#Protected Dashboard
 @app.route('/dashboard', methods=['GET'])
 # @jwt_required
 def dashboard():
