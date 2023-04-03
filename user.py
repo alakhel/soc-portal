@@ -69,3 +69,12 @@ class User(Resource):
                     setattr(user, i, data[i])
 
         return {'message': 'User updated succesfully'}, 200
+
+# Create 1 user
+#    def post(self):
+#        data = request.get_json()
+#        user = DBUser(prenom=data['prenom'], nom=data['nom'], login=data['login'], groupe=data['groupe'])
+#        user.set_password(data['password'])
+#        db.session.add(user)
+#        db.session.commit()
+#        return {'message': 'User created successfully.'}, 201
