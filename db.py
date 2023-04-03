@@ -3,7 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-class User(db.Model):
+
+class DBUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     prenom = db.Column(db.String(50))
     nom = db.Column(db.String(50))
@@ -20,10 +21,12 @@ class User(db.Model):
     def __repr__(self):
         return f'<User {self.id}>'
 
+
 class DBMachine(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     hostname = db.Column(db.String(255), nullable=False)
     ip = db.Column(db.String(15), nullable=False)
     group = db.Column(db.String(50), nullable=False)
+
     def __repr__(self):
-        return f'<Machine {self.id}>'   
+        return f'<Machine {self.id}>'

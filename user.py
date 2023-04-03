@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity
-from db import User, db
+from db import DBUser, db
 
 
 class User(Resource):
@@ -10,7 +10,7 @@ class User(Resource):
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
-        user = User.query.filter_by(id=user_id).first()
+        user = DBUser.query.filter_by(id=user_id).first()
         if user:
             user_data = {'id': user.id, 'prenom': user.prenom, 'nom': user.nom, 'login': user.login, 'groupe': user.groupe}
             return user_data, 200
@@ -22,7 +22,7 @@ class User(Resource):
     def post(self):
         if get_jwt()['admin']:
             data = request.get_json()
-            user = User(prenom=data['prenom'], nom=data['nom'], login=data['login'], groupe=data['groupe'])
+            user = DBUser(prenom=data['prenom'], nom=data['nom'], login=data['login'], groupe=data['groupe'])
             user.set_password(data['password'])
             db.session.add(user)
             db.session.commit()
@@ -38,7 +38,7 @@ class User(Resource):
             return {'message': 'Must be admin to delete a user'}, 403
 
         data = request.get_json()
-        user = User.query.filter_by(id=data['user_id']).first()
+        user = DBUser.query.filter_by(id=data['user_id']).first()
         if user:
             db.session.delete(user)
             db.session.commit()
@@ -56,7 +56,7 @@ class User(Resource):
             user_id = get_jwt_identity()
 
         data = request.get_json()
-        user = User.query.filter_by(id=user_id).first()
+        user = DBUser.query.filter_by(id=user_id).first()
         if not user:
             return {'message': "User doesn't exist"}, 404
 

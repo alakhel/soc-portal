@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
-from db import User
+from db import DBUser
 from utils import check_args
 
 
@@ -18,7 +18,7 @@ class Login(Resource):
             return "Missing Arguments", 400
 
         data = request.get_json()
-        user = User.query.filter_by(login=data['username']).first()
+        user = DBUser.query.filter_by(login=data['username']).first()
         if not user or not check_password_hash(user.password_hash, data['password']):
             return {'error': 'Invalid username or password'}, 403
 
