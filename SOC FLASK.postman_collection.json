@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "09c92a13-ff24-417c-b495-da71666722c0",
+		"name": "SOC FLASK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10733349"
+	},
+	"item": [
+		{
+			"name": "{{url_base}}/api/user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"prenom\": \"John\", \"nom\": \"Doe\", \"login\": \"johndoe\", \"password\": \"password123\", \"groupe\": \"group1\"}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/user",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/api/user",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/user/update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"user_id\": 1, \"nom\": \"UpdatedName\", \"prenom\": \"UpdatedPrenom\", \"login\": \"updatedlogin\", \"password\": \"updatedPassword\", \"groupe\": \"updatedGroup\"}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/user/update",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"user_id\": 1}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/user",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/machine",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"hostname\": \"machine1\", \"ip\": \"192.168.1.1\", \"group\": \"group1\"}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/machine",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"machine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/machine",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"machine_id\": 1}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/machine",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"machine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/machine/update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"machine_id\": 1, \"hostname\": \"updatedMachine\", \"ip\": \"192.168.1.2\", \"group\": \"updatedGroup\"}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/machine/update",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"machine",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/machine/update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"machine_id\": 1, \"hostname\": \"updatedMachine\", \"ip\": \"192.168.1.2\", \"group\": \"updatedGroup\"}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/machine/update",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"machine",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/machine",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"machine_id\": 1}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/machine",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"machine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/machines",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/machines",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"machines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"johndoe\", \"password\": \"password123\"}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/login",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/users",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_base",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "xxx",
+			"type": "string"
+		}
+	]
+}

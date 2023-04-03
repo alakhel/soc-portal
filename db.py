@@ -11,6 +11,8 @@ class DBUser(db.Model):
     login = db.Column(db.String(50), unique=True)
     password_hash = db.Column(db.String(128))
     groupe = db.Column(db.String(50))
+    first_login = db.Column(db.Boolean, default=True)  # Add this line
+
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

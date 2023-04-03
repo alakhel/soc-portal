@@ -4,6 +4,10 @@
 
 - pip install -r requirements.txt
 - apt install sqlite3
+- create db by luanching the app :
+- python3 app.py
+
+
 
 #### run:
 
