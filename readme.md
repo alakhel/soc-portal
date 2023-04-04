@@ -50,6 +50,10 @@ fetch('/dashboard', {
 
 ### Tasks:
 
+#### API
+
+- Create a PostMan collection
+
 #### RBAC :
 
 https://flask-rbac.readthedocs.io/en/latest/
