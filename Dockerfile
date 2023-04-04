@@ -26,3 +26,6 @@ RUN npm run build
 
 # Set the working directory back to the root of the Laravel project
 WORKDIR /var/www/html/
+
+# Configure Apache document root to point to the Laravel public directory
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
