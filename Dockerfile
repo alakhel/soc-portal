@@ -1,5 +1,5 @@
 # Use the official PHP image with Apache
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 # Copy the contents of the Laravel project to the image
 COPY . /var/www/html/
@@ -26,6 +26,11 @@ RUN npm run build
 
 # Set the working directory back to the root of the Laravel project
 WORKDIR /var/www/html/
+
+
+# Update permissions for the storage directory
+RUN chown -R www-data:www-data /var/www/html/storage \
+    && chmod -R 755 /var/www/html/storage
 
 # Configure Apache document root to point to the Laravel public directory
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
