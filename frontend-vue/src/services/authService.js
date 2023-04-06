@@ -1,10 +1,8 @@
-import axios from "axios";
-
-const API_URL = "http://127.0.0.1:8000/api/";
+import apiClient from './index';
 
 export async function login(username, password) {
   try {
-    const response = await axios.post(`${API_URL}login`, {
+    const response = await apiClient.post('/login', {
       username,
       password,
     });
