@@ -42,6 +42,8 @@ WORKDIR /var/www/html/
 # Update permissions for the storage directory
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 755 /var/www/html/storage
+# Add this line after the other COPY and RUN commands
+COPY ./www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Start Nginx and PHP-FPM
 CMD ["sh", "-c", "service nginx start; php-fpm"]
