@@ -9,8 +9,6 @@ services:
       MYSQL_PASSWORD: secret
   web:
     build: .
-    expose:
-      - 9000
     links:
       - db
   nginx:

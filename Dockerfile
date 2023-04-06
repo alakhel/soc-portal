@@ -1,14 +1,26 @@
 # Use the official PHP image with FPM
 FROM php:8.1-fpm
 
+# Add the Nginx repository
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    && wget https://nginx.org/keys/nginx_signing.key \
+    && apt-key add nginx_signing.key \
+    && echo "deb http://nginx.org/packages/mainline/debian/ $(lsb_release -cs) nginx" | tee /etc/apt/sources.list.d/nginx.list
+
 # Copy the contents of the Laravel project to the image
 COPY . /var/www/html/
+
+# Copy the Nginx configuration file for Laravel
+COPY laravel-nginx.conf /etc/nginx/conf.d/default.conf
 
 # Set the working directory to the root of the Laravel project
 WORKDIR /var/www/html/
 
 # Install dependencies for Laravel and the Vue frontend
 RUN apt-get update && apt-get install -y \
+    nginx \
     npm \
     libzip-dev \
     && docker-php-ext-install zip \
@@ -30,3 +42,6 @@ WORKDIR /var/www/html/
 # Update permissions for the storage directory
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 755 /var/www/html/storage
+
+# Start Nginx and PHP-FPM
+CMD ["sh", "-c", "service nginx start; php-fpm"]
