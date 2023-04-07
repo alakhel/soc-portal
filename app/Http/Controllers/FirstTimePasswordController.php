@@ -50,6 +50,7 @@ class FirstTimePasswordController extends Controller
             'message' => 'Password updated successfully',
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'user_role' => $user->role,
         ], 200);
     }
 }

@@ -81,6 +81,8 @@ async submitFirstTimePassword() {
     );
     // Store the access token and navigate to the dashboard
     localStorage.setItem("access_token", response.access_token);
+    localStorage.setItem("user_role", response.user_role); // Add this line
+
     this.$router.push("/dashboard");
   } catch (error) {
     console.log("Error: ", error);

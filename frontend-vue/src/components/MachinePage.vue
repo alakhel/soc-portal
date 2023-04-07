@@ -10,7 +10,7 @@
               <th>Hostname</th>
               <th>IP</th>
               <th>Group</th>
-              <th>Action</th>
+              <th v-if="isAdminUser">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -18,15 +18,15 @@
               <td>{{ machine.hostname }}</td>
               <td>{{ machine.ip }}</td>
               <td>{{ machine.groupe }}</td>
-              <td>
-                <button class="button is-danger" @click="deleteMachine(machine.id)">Delete</button>
+              <td v-if="isAdminUser">
+                <button  class="button is-danger" @click="deleteMachine(machine.id)">Delete</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
-    <section class="section">
+    <section v-if="isAdminUser" class="section">
       <div class="container">
         <h2 class="title">Add Machine</h2>
         <form @submit.prevent="addMachine">
@@ -69,6 +69,8 @@
   <script>
   import NavBar from './NavBar.vue';
   import computerService from '@/services/computerService';
+  import { isAdmin } from "@/services/authService";
+
   
   export default {
     name: "MachineList",
@@ -85,6 +87,12 @@
         },
       };
     },
+    computed: {
+  isAdminUser() {
+    return isAdmin();
+  },
+},
+
     methods: {
       async getMachines() {
         this.machines = await computerService.getAllComputers();

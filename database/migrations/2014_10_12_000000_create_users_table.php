@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->boolean('firstLogin')->default(true);
+            $table->string('role')->default('user'); // Add this line
             $table->string('groupe');
             $table->rememberToken();
             $table->timestamps();

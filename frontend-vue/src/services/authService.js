@@ -26,4 +26,25 @@ export async function firstTimePassword(username, old_password, new_password, ne
   } catch (error) {
     console.log(`HTTP error -> ${error.response.status}`);
   }
+  
 }
+// authService.js
+export function isAuth() {
+  const accessToken = localStorage.getItem("access_token");
+  return !!accessToken;
+}
+
+export function getAccessToken() {
+  return localStorage.getItem("access_token");
+}
+
+export function logout() {
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("user_role");
+}
+// authService.js
+export function isAdmin() {
+  const userRole = localStorage.getItem("user_role");
+  return userRole === 'admin';
+}
+
