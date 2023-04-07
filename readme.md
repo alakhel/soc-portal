@@ -24,24 +24,34 @@ sudo mysql_secure_installation
 sudo apt-get install php8.1 php8.1-fpm php8.1-mysql php8.1-zip
 ```
 
-## Install Node.js and npm:
+## If the step upthere didn't work, execute these following commands:
+```
+sudo apt update && sudo apt install -y software-properties-common 
+sudo add-apt-repository ppa:ondrej/php 
+sudo apt update
+```
+
+## Install Node.js and npm (install curl if not installed) :
 ```
 curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-## Clone or copy your Laravel project to the server:
+## Clone or copy your Laravel project to the server (install git if not installed):
 ```
 # If using Git, for example:
-git clone https://your-repository-url /var/www/html/your-project-name
+sudo git clone https://github.com/alakhel/soc-portal /var/www/html/soc-portal
 ```
 
 ## Configure Nginx:
-Copy the Nginx configuration from your Docker setup to /etc/nginx/sites-available/your-project-name (create a new file).
+```
+On line 22 of /etc/nginx/sites-available/soc-portal/nginx.conf, change "web" to the address you want to use. (For tests purpose: localhost)
+sudo cp /etc/nginx/sites-available/soc-portal/nginx.conf /etc/nginx/nginx.conf 
+```
 
 ### Create a symbolic link to the sites-enabled directory:
 ```
-sudo ln -s /etc/nginx/sites-available/your-project-name /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/soc-portal /etc/nginx/sites-enabled/
 ```
 
 ### Test the Nginx configuration:
@@ -72,7 +82,7 @@ EXIT;
 ## Configure your Laravel project:
 Copy .env.example to .env and update the necessary values (e.g., database credentials).
 ```
-cd /var/www/html/your-project-name
+cd /var/www/html/soc-portal
 cp .env.example .env
 ```
 
@@ -92,7 +102,7 @@ php artisan migrate
 ```
 ## Install npm dependencies for the Vue frontend:
 ```
-cd /var/www/html/your-project-name/frontend-vue
+cd /var/www/html/soc-portal/frontend-vue
 npm install
 ```
 
@@ -103,8 +113,8 @@ npm run build
 
 ### Update permissions for the storage directory:
 ```
-sudo chown -R www-data:www-data /var/www/html/your-project-name/storage
-sudo chmod -R 755 /var/www/html/your-project-name/storage
+sudo chown -R www-data:www-data /var/www/html/soc-portal/storage
+sudo chmod -R 755 /var/www/html/soc-portal/storage
 ```
 
 ## Restart Nginx and PHP-FPM:
