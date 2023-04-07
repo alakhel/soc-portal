@@ -44,7 +44,10 @@ sudo git clone https://github.com/alakhel/soc-portal /var/www/html/soc-portal
 ```
 
 ## Configure Nginx:
-Copy the Nginx configuration from your Docker setup to /etc/nginx/sites-available/soc-portal (create a new file).
+```
+On line 22 of /etc/nginx/sites-available/soc-portal/nginx.conf, change "web" to the address you want to use. (For tests purpose: localhost)
+sudo cp /etc/nginx/sites-available/soc-portal/nginx.conf /etc/nginx/nginx.conf 
+```
 
 ### Create a symbolic link to the sites-enabled directory:
 ```
