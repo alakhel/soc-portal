@@ -16,6 +16,7 @@ sudo apt install git
 sudo git clone https://github.com/alakhel/soc-portal /var/www/html/soc-portal
 sed -i 's/web/localhost/' /var/www/html/soc-portal/nginx.conf
 sudo cp /var/www/html/soc-portal/nginx.conf /etc/nginx/nginx.conf
+sudo mkdir /etc/nginx/sites-available/soc-portail
 sudo cp /var/www/html/soc-portal/nginx.conf /etc/nginx/sites-available/soc-portail/nginx.conf
 sudo ln -s /etc/nginx/sites-available/soc-portal /etc/nginx/sites-enabled/
 sudo nginx -t
