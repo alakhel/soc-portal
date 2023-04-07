@@ -45,15 +45,21 @@ sudo git clone https://github.com/alakhel/soc-portal /var/www/html/soc-portal
 
 ## Configure Nginx:
 ```
-On line 22 of /etc/nginx/sites-available/soc-portal/nginx.conf, change "web" to the address you want to use. (For tests purpose: localhost)
-sudo cp /etc/nginx/sites-available/soc-portal/nginx.conf /etc/nginx/nginx.conf 
+sudo cp /var/www/html/soc-portal/laravel-backend.conf /etc/nginx/sites-available/laravel-backend
+sudo cp /var/www/html/soc-portal/vue-frontend.conf /etc/nginx/sites-available/vue-frontend
 ```
 
 ### Create a symbolic link to the sites-enabled directory:
 ```
-sudo ln -s /etc/nginx/sites-available/soc-portal /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/laravel-backend /etc/nginx/sites-enabled/laravel-backend
+sudo ln -s /etc/nginx/sites-available/vue-frontend /etc/nginx/sites-enabled/vue-frontend
+sudo rm /etc/nginx/sites-enabled/default
 ```
-
+### Copy frontend et renomer Backend
+```
+sudo cp -r /var/www/html/soc-portal /var/www/html/laravel-backend
+sudo cp -r /var/www/html/soc-portal/frontend-vue /var/www/html/frontend-vue
+```
 ### Test the Nginx configuration:
 ```
 sudo nginx -t
@@ -70,11 +76,11 @@ sudo systemctl reload nginx
 sudo mysql -u root -p
 ```
 
-Create a database and user for your Laravel project (replace your_database_name, your_user_name, and your_password with your desired values):
+Create a database and user for your Laravel project:
 ```
-CREATE DATABASE your_database_name;
-CREATE USER 'your_user_name'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_user_name'@'localhost';
+CREATE DATABASE soc;
+CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'P@ssw0rd';
+GRANT ALL PRIVILEGES ON soc.* TO 'laravel'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -82,7 +88,7 @@ EXIT;
 ## Configure your Laravel project:
 Copy .env.example to .env and update the necessary values (e.g., database credentials).
 ```
-cd /var/www/html/soc-portal
+cd /var/www/html/laravel-backend
 cp .env.example .env
 ```
 
@@ -102,19 +108,22 @@ php artisan migrate
 ```
 ## Install npm dependencies for the Vue frontend:
 ```
-cd /var/www/html/soc-portal/frontend-vue
+cd /var/www/html/frontend-vue
 npm install
 ```
 
 ### Build the Vue frontend:
 ```
+sudo sed -i "s|baseURL: 'http://127.0.0.1:8000/api'|// baseURL: 'http://127.0.0.1:8000/api'|" /var/www/html/frontend-vue/src/services/index.js
+sudo sed -i "s|// baseURL: 'http://64.226.68.181/api'|baseURL: 'http://64.226.68.181/api'|" /var/www/html/frontend-vue/src/services/index.js
+
 npm run build
 ```
 
 ### Update permissions for the storage directory:
 ```
-sudo chown -R www-data:www-data /var/www/html/soc-portal/storage
-sudo chmod -R 755 /var/www/html/soc-portal/storage
+sudo chown -R www-data:www-data /var/www/html/laravel-backend/storage
+sudo chmod -R 755 /var/www/html/laravel-backend/storage
 ```
 
 ## Restart Nginx and PHP-FPM:
