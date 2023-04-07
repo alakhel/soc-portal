@@ -40,7 +40,7 @@ sudo apt-get install -y nodejs
 ## Clone or copy your Laravel project to the server (install git if not installed):
 ```
 # If using Git, for example:
-git clone https://github.com/alakhel/soc-portal /var/www/html/soc-portal
+sudo git clone https://github.com/alakhel/soc-portal /var/www/html/soc-portal
 ```
 
 ## Configure Nginx:
