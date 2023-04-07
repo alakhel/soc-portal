@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "588da866-325e-4ee3-85b6-ee313b4cfdc5",
+		"name": "soc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10733349"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"prenom\": \"John\",\n    \"nom\": \"Doe\",\n    \"username\": \"admin1\",\n    \"password\": \"mypassword\",\n    \"groupe\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/users",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/users",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/users/{{user_id}}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/users/{{user_id}}",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/users/{{user_id}}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"prenom\": \"Jane\",\n    \"nom\": \"Doe\",\n    \"username\": \"admin1\",\n    \"password\": \"P@ssword\",\n    \"groupe\" : \"user\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/users/4",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/users/{{user_id}}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/users/{{user_id}}",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/computers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hostname\": \"PC1\",\n    \"ip\": \"192.168.1.2\",\n    \"groupe\": \"workstation\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/computers",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"computers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/computers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/computers",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"computers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/computers/{{computer_id}}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/computers/{{computer_id}}",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"computers",
+						"{{computer_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/computers/{{computer_id}}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hostname\": \"PC2\",\n    \"ip\": \"192.168.1.3\",\n    \"groupe\": \"Blue\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/computers/1",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"computers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/computers/{{computer_id}}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_base}}/api/computers/{{computer_id}}",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"computers",
+						"{{computer_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://{{url_base}}/api/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"admin1\",\n    \"password\": \"newpassword123\"\n}"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/login",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{url_base}}/api/password/change",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"username\": \"johndoe\",\n        \"old_password\": \"mypassword\",\n        \"new_password\": \"newpassword123\",\n        \"new_password_confirmation\" : \"newpassword123\"\n    }"
+				},
+				"url": {
+					"raw": "{{url_base}}/api/first-time-password",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"first-time-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{AT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_base}}/api/user",
+					"host": [
+						"{{url_base}}"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_base",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "AT",
+			"value": "3|P3hVn7JotYmFOvTqjxyq4z7j3UYcnX3OP5g4eqdS",
+			"type": "string"
+		}
+	]
+}
