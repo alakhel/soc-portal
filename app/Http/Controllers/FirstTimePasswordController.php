@@ -43,6 +43,14 @@ class FirstTimePasswordController extends Controller
         $user->firstLogin = false;
         $user->save();
 
-        return response()->json(['message' => 'Password updated successfully'], 200);
+        // generate access token
+        $token = $user->createToken('auth-token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Password updated successfully',
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ], 200);
     }
 }
+

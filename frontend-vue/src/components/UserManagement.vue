@@ -117,7 +117,7 @@ import AddEditUserModal from './AddEditUserModal.vue'; // Import the AddEditUser
       if (this.editMode) {
         await userService.updateUser(user.id, user);
       } else {
-        await userService.createUser(user);
+        userService.createUser(user).then().catch(error =>console.log(error.response.data.errors))
       }
       this.getUsers();
       this.addEditUserModalVisible = false;

@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         // authentication failed, return error response
         return response()->json([
-            'error' => 'Unauthorized',
+            'error' => 'Incorrect password',
         ], 401);
     }
 }

@@ -21,6 +21,10 @@ apiClient.interceptors.response.use((response) => {
   if (error.response && error.response.status === 422) {
     // Handle 422 Unprocessable Entity error here
     console.error('Validation errors:', error.response.data.errors);
+  }else if (error.response && error.response.status === 401) {
+    // Handle 401 Unauthorized error here
+    console.error('Unauthorized:', error.response.data.errors);
+    console.log("Unauthorized");
   }
   return Promise.reject(error);
 });

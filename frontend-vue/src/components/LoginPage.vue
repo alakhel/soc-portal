@@ -7,10 +7,10 @@
             <a class="navbar-item" href="/">
               <img src="@/assets/logo-nav.svg" />
             </a>
-            <h1>Login</h1>
-            <form @submit.prevent="submitForm">
+            <h1 class="title">-Login-</h1>
+            <form v-if="!firstTimeLogin" @submit.prevent="submitForm">
               <div class="field">
-                <input class="input" type="text" v-model="username" placeholder="username" required />
+                <input class="input" type="text" v-model="username" placeholder="Username" required />
               </div>
               <div class="field">
                 <input class="input" type="password" v-model="password" placeholder="Password" required />
@@ -19,6 +19,20 @@
                 <button class="button is-success">Login</button>
               </div>
             </form>
+            <form v-else @submit.prevent="submitFirstTimePassword">
+              <h2 class="subtitle">Please change your password</h2>
+              <div class="field">
+                <input class="input" type="password" v-model="newPassword" placeholder="New Password" required />
+              </div>
+              <div class="field">
+                <input class="input" type="password" v-model="newPasswordConfirmation" placeholder="Confirm New Password" required />
+              </div>
+              <div class="field">
+                <button class="button is-success">Update Password</button>
+              </div>
+            </form>
+            <p v-if="errorMessage" class="has-text-danger">{{ errorMessage }}</p>
+
             <router-link class="navbar-item" to="/">Home</router-link>
           </div>
         </div>
@@ -28,25 +42,51 @@
 </template>
 
 <script>
-import { login } from "@/services/authService";
+import { login, firstTimePassword } from "@/services/authService";
 
 export default {
   data() {
     return {
       username: "",
       password: "",
+      newPassword: "",
+      newPasswordConfirmation: "",
+      firstTimeLogin: false,
+      errorMessage: "",
+
     };
   },
   methods: {
     async submitForm() {
-      try {
-        const response = await login(this.username, this.password);
-        localStorage.setItem("access_token", response.access_token);
-        this.$router.push("/dashboard");
-      } catch (error) {
-        console.error(error);
-      }
-    },
+  try {
+    const response = await login(this.username, this.password);
+    if (response.message) {
+      this.firstTimeLogin = true;
+    } else {
+      localStorage.setItem("access_token", response.access_token);
+      this.$router.push("/dashboard");
+    }
+  } catch (error) {
+    console.log("Error: ", error);
+    this.errorMessage = "Invalid username or password";
+  }
+},
+async submitFirstTimePassword() {
+  try {
+    const response = await firstTimePassword(
+      this.username,
+      this.password,
+      this.newPassword,
+      this.newPasswordConfirmation
+    );
+    // Store the access token and navigate to the dashboard
+    localStorage.setItem("access_token", response.access_token);
+    this.$router.push("/dashboard");
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+},
+
   },
 };
 </script>
