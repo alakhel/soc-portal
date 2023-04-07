@@ -40,15 +40,15 @@ sudo apt-get install -y nodejs
 ## Clone or copy your Laravel project to the server:
 ```
 # If using Git, for example:
-git clone https://your-repository-url /var/www/html/your-project-name
+git clone https://github.com/alakhel/soc-portal /var/www/html/soc-portal
 ```
 
 ## Configure Nginx:
-Copy the Nginx configuration from your Docker setup to /etc/nginx/sites-available/your-project-name (create a new file).
+Copy the Nginx configuration from your Docker setup to /etc/nginx/sites-available/soc-portal (create a new file).
 
 ### Create a symbolic link to the sites-enabled directory:
 ```
-sudo ln -s /etc/nginx/sites-available/your-project-name /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/soc-portal /etc/nginx/sites-enabled/
 ```
 
 ### Test the Nginx configuration:
@@ -79,7 +79,7 @@ EXIT;
 ## Configure your Laravel project:
 Copy .env.example to .env and update the necessary values (e.g., database credentials).
 ```
-cd /var/www/html/your-project-name
+cd /var/www/html/soc-portal
 cp .env.example .env
 ```
 
@@ -99,7 +99,7 @@ php artisan migrate
 ```
 ## Install npm dependencies for the Vue frontend:
 ```
-cd /var/www/html/your-project-name/frontend-vue
+cd /var/www/html/soc-portal/frontend-vue
 npm install
 ```
 
@@ -110,8 +110,8 @@ npm run build
 
 ### Update permissions for the storage directory:
 ```
-sudo chown -R www-data:www-data /var/www/html/your-project-name/storage
-sudo chmod -R 755 /var/www/html/your-project-name/storage
+sudo chown -R www-data:www-data /var/www/html/soc-portal/storage
+sudo chmod -R 755 /var/www/html/soc-portal/storage
 ```
 
 ## Restart Nginx and PHP-FPM:
