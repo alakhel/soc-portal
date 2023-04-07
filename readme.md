@@ -24,7 +24,14 @@ sudo mysql_secure_installation
 sudo apt-get install php8.1 php8.1-fpm php8.1-mysql php8.1-zip
 ```
 
-## Install Node.js and npm:
+## If the step upthere didn't work, execute these following commands:
+```
+sudo apt update && sudo apt install -y software-properties-common 
+sudo add-apt-repository ppa:ondrej/php 
+sudo apt update
+```
+
+## Install Node.js and npm (install curl if not installed) :
 ```
 curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
