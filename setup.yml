@@ -1,0 +1,204 @@
+---
+- name: Setup server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Install MySQL
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Run mysql_secure_installation
+      expect:
+        command: mysql_secure_installation
+        responses:
+          'Enter current password for root \(enter for none\):': ''
+          'Set root password? \[Y/n\]': 'Y'
+          'New password:': 'YOUR_NEW_MYSQL_PASSWORD'
+          'Re-enter new password:': 'YOUR_NEW_MYSQL_PASSWORD'
+          'Remove anonymous users? \[Y/n\]': 'Y'
+          'Disallow root login remotely? \[Y/n\]': 'Y'
+          'Remove test database and access to it? \[Y/n\]': 'Y'
+          'Reload privilege tables now? \[Y/n\]': 'Y'
+
+    - name: Install PHP and required extensions
+      apt:
+        name:
+          - php8.1
+          - php8.1-fpm
+          - php8.1-mysql
+          - php8.1-zip
+        state: present
+      register: php_installed
+
+    - name: Add ondrej/php PPA and install PHP if the previous step failed
+      block:
+        - name: Add ondrej/php PPA
+          apt_repository:
+            repo: ppa:ondrej/php
+            state: present
+
+        - name: Update packages
+          apt:
+            update_cache: yes
+
+        - name: Install PHP and required extensions
+          apt:
+            name:
+              - php8.1
+              - php8.1-fpm
+              - php8.1-mysql
+              - php8.1-zip
+            state: present
+      when: php_installed is failed
+    - name: Install Composer dependencies (Curl, Zip, and Unzip)
+      apt:
+        name:
+          - curl
+          - zip
+          - unzip
+        state: present
+
+    - name: Install Composer
+      get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/composer-setup.php
+        mode: '0755'
+
+    - name: Run Composer installer
+      command: php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+    - name: Install Node.js and npm
+      nodejs:
+        nodejs_version: 16.x
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+
+    - name: Clone the Laravel project
+      git:
+        repo: 'https://github.com/alakhel/soc-portal'
+        dest: '/var/www/html/soc-portal'
+        update: yes
+
+    - name: Copy Nginx configuration files
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      loop:
+        - { src: '/var/www/html/soc-portal/laravel-backend.conf', dest: '/etc/nginx/sites-available/laravel-backend' }
+        - { src: '/var/www/html/soc-portal/vue-frontend.conf', dest: '/etc/nginx/sites-available/vue-frontend' }
+
+    - name: Create symbolic links to sites-enabled
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+      loop:
+        - { src: '/etc/nginx/sites-available/laravel-backend', dest: '/etc/nginx/sites-enabled/laravel-backend' }
+        - { src: '/etc/nginx/sites-available/vue-frontend', dest: '/etc/nginx/sites-enabled/vue-frontend' }
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Copy frontend and rename backend
+      command: "{{ item }}"
+      with_items:
+        - cp -r /var/www/html/soc-portal /var/www/html/laravel-backend
+        - cp -r /var/www/html/soc-portal/frontend-vue /var/www/html/frontend-vue
+
+    - name: Test Nginx configuration
+      command: nginx -t
+      register: nginx_test
+      changed_when: false
+
+    - name: Reload Nginx
+      systemd:
+        name: nginx
+        state: reloaded
+      when: nginx_test.rc == 0
+
+    - name: Configure MySQL
+      block:
+        - name: Create MySQL database
+          mysql_db:
+            name: soc
+            state: present
+
+        - name: Create MySQL user
+          mysql_user:
+            name: laravel
+            password: P@ssw0rd
+            priv: 'soc.*:ALL'
+            state: present
+
+    - name: Copy .env.example to .env
+      command: cp .env.example .env
+      args:
+        chdir: /var/www/html/laravel-backend
+
+    - name: Install Composer dependencies
+      composer:
+        command: install
+        working_dir: /var/www/html/laravel-backend
+
+    - name: Generate application key
+      command: php artisan key:generate
+      args:
+        chdir: /var/www/html/laravel-backend
+
+    - name: Run migrations
+      command: php artisan migrate
+      args:
+        chdir: /var/www/html/laravel-backend
+
+    - name: Install npm dependencies for Vue frontend
+      command: npm install
+      args:
+        chdir: /var/www/html/frontend-vue
+
+    - name: Build the Vue frontend
+      block:
+        - name: Update baseURL in index.js
+          lineinfile:
+            path: /var/www/html/frontend-vue/src/services/index.js
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+          loop:
+            - { regexp: "baseURL: 'http://127.0.0.1:8000/api'", line: "// baseURL: 'http://127.0.0.1:8000/api'" }
+            - { regexp: "// baseURL: 'http://64.226.68.181/api'", line: "baseURL: 'http://64.226.68.181/api'" }
+
+        - name: Run npm build
+          command: npm run build
+          args:
+            chdir: /var/www/html/frontend-vue
+
+    - name: Set permissions for storage directory
+      file:
+        path: /var/www/html/laravel-backend/storage
+        owner: www-data
+        group: www-data
+        mode: '0755'
+        recurse: yes
+
+    - name: Restart Nginx and PHP-FPM
+      systemd:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - nginx
+        - php8.1-fpm
