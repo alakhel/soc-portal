@@ -24,7 +24,7 @@ const routes = [
     path: "/Machine",
     name:"Machine",
     component: MachinePage,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresAdmin: true }, // Add requiresAdmin
   },
   {
     path: "/login",

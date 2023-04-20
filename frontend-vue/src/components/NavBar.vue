@@ -23,7 +23,7 @@
       <div class="navbar-start">
         <router-link class="navbar-item" to="/">Home</router-link>
         <router-link v-if="isAuth" class="navbar-item" to="/dashboard">Dashboard</router-link>
-        <router-link v-if="isAuth" class="navbar-item" to="/machine">Machine</router-link>
+        <router-link v-if="isAuth && isAdminUser" class="navbar-item" to="/machine">Machine</router-link>
         <router-link v-if="isAuth && isAdminUser" class="navbar-item" to="/UserManagement">User Management</router-link>
       </div>
 
