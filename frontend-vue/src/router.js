@@ -6,6 +6,8 @@ import LoginPage from './components/LoginPage.vue'
 import UserProfile from '@/components/UserProfile.vue';
 import UserManagement from '@/components/UserManagement.vue';
 import { isAuth, isAdmin } from "@/services/authService";
+// Add this import
+import NotFoundPage from './components/NotFoundPage.vue';
 
 const routes = [
   {
@@ -45,7 +47,13 @@ const routes = [
     component: UserManagement,
     meta: { requiresAuth: true, requiresAdmin: true }, // Add requiresAdmin
 
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFoundPage
   }
+  
   // Add other routes here
 ];
 const router = createRouter({
