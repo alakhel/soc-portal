@@ -51,6 +51,8 @@ def fuzz_website(logger: logging.Logger, timeout: int) -> None:
             if time.time() > current_time + timeout:
                 break
 
+            time.sleep(1)
+
         if time.time() > current_time + timeout:
             break
 
