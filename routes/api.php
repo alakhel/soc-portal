@@ -25,3 +25,4 @@ Route::middleware('auth:api')->group(function () {
 
 
 Route::get('/ctf/injection', [CTFController::class, 'injection']);
+Route::get('/ctf/ddos', [CTFController::class, 'ddos']);

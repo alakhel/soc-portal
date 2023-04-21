@@ -56,6 +56,27 @@ class CTFController extends Controller
             'data' => $result,
         ]);
     }
+    public function ddos(Request $request)
+    {
+       if  ($request->num == null){
+    // Generate a large random number
+    $number = rand(1, 1000000); 
+    }  else {
+    $number = $request->num;
+        }
+
+    // Perform a heavy calculation by finding the sum of all even numbers
+    $sum = 0;
+    for ($i = 0; $i <= $number; $i++) {
+        if ($i % 2 == 0) {
+            $sum += $i;
+        }
+    }
+
+    // Return the result of the heavy calculation
+    return $sum;
+    }
+
     
 }
 
